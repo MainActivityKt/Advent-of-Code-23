@@ -33,20 +33,17 @@ fun isCubeValid(cube: Map<String, Int>): Boolean {
 }
 
 fun main() {
-    val testInput1 = readInput("Day02_1_test")
-    val input = readInput("Day02")
-
     fun part1(input: List<String>): Int {
         return findValidIDs(input).sum()
     }
-
     fun part2(input: List<String>): Int {
         return 0
     }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day02_1_test")
-    check(part1(testInput) == 8)
+    val testInput1 = readInput("Day02_1_test")
+    val input = readInput("Day02")
+
+    check(part1(testInput1) == 8)
 
     part1(input).let(::println)
 
