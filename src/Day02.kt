@@ -1,4 +1,5 @@
 
+data class Cube(var red:Int = 0, var green: Int = 0, var blue: Int = 0 )
 fun findValidIDs(input: List<String>): List<Int> {
     val validIDs = mutableListOf<Int>()
     input.forEach { if (isCubeSetValid(it)) { validIDs.add(parseID(it)) } }
@@ -27,6 +28,21 @@ fun isCubeValid(cube: Map<String, Int>): Boolean {
     return cube["red"]!! <= 12 && cube["green"]!! <= 13 && cube["blue"]!! <= 14
 }
 
+fun findMaximumCubePower(input: String): Int {
+    val text = input.split(":").last().trim().split(";")
+    val cube = mutableMapOf <String, Int> ("red" to 0, "green" to 0, "blue" to 0)
+    text.forEach {
+        it.split(",").forEach { s ->//  3 blue
+            val color = s.filter { it.isLetter() }
+            val amount = s.filter { it.isDigit() }.toInt()
+            if (cube[color]!! < amount) {
+                cube[color] = amount
+            }
+        }
+    }
+    return cube["red"]!! * cube["green"]!! * cube["blue"]!!
+}
+
 fun main() {
     fun part1(input: List<String>): Int {
         return findValidIDs(input).sum()
@@ -35,11 +51,15 @@ fun main() {
         return 0
     }
 
-    val testInput1 = readInput("Day02_1_test")
+    val testInput = readInput("Day02_1_test")
     val input = readInput("Day02")
 
-    check(part1(testInput1) == 8)
-    part1(input).let(::println)
+    check(part1(testInput) == 8)
+//    part1(input).let(::println)
+    testInput.forEach {
+        print("Current game = $it ")
+        println("Power: ${findMaximumCubePower(it)}")
+    }
 
 
 }
