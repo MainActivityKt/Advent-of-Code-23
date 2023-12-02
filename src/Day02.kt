@@ -1,5 +1,4 @@
 
-data class Cube(var red:Int = 0, var green: Int = 0, var blue: Int = 0 )
 fun findValidIDs(input: List<String>): List<Int> {
     val validIDs = mutableListOf<Int>()
     input.forEach { if (isCubeSetValid(it)) { validIDs.add(parseID(it)) } }
@@ -28,7 +27,7 @@ fun isCubeValid(cube: Map<String, Int>): Boolean {
     return cube["red"]!! <= 12 && cube["green"]!! <= 13 && cube["blue"]!! <= 14
 }
 
-fun findMaximumCubePower(input: String): Int {
+fun findMinSet(input: String): Map<String, Int> {
     val text = input.split(":").last().trim().split(";")
     val cube = mutableMapOf <String, Int> ("red" to 0, "green" to 0, "blue" to 0)
     text.forEach {
@@ -40,13 +39,14 @@ fun findMaximumCubePower(input: String): Int {
             }
         }
     }
-    return cube["red"]!! * cube["green"]!! * cube["blue"]!!
+    return cube
 }
 
-fun findMinSet(cubes: List<String>): Int {
+fun calculateSumOfPowers(cubes: List<String>): Int {
     var totalPower = 0
     cubes.forEach {
-        totalPower += findMaximumCubePower(it)
+        val minCube = findMinSet(it)
+        totalPower += (minCube["red"]!! * minCube["green"]!! * minCube["blue"]!!)
     }
     return totalPower
 }
@@ -56,15 +56,17 @@ fun main() {
         return findValidIDs(input).sum()
     }
     fun part2(input: List<String>): Int {
-        return 0
+        return calculateSumOfPowers(input)
     }
 
-    val testInput = readInput("Day02_1_test")
+    val testInput = readInput("Day02_test")
     val input = readInput("Day02")
 
     check(part1(testInput) == 8)
-//    part1(input).let(::println)
-    println(findMinSet(input))
+    check(part2(testInput) == 2286)
+
+    part1(input).let(::println)
+    part2(input).let(::println)
 
 
 }
