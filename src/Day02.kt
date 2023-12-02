@@ -1,9 +1,4 @@
 
-
-
-
-
-
 fun findValidIDs(input: List<String>): List<Int> {
     val validIDs = mutableListOf<Int>()
     input.forEach { if (isCubeSetValid(it)) { validIDs.add(parseID(it)) } }
@@ -44,7 +39,6 @@ fun main() {
     val input = readInput("Day02")
 
     check(part1(testInput1) == 8)
-
     part1(input).let(::println)
 
 
