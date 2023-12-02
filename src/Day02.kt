@@ -1,24 +1,54 @@
 
 
-data class Game(val id: Int, val cubes: List<Cube>)
-data class Cube(val reds: Int, val greens: Int, val blues: Int)
 
 
+
+
+fun findValidIDs(input: List<String>): List<Int> {
+    val validIDs = mutableListOf<Int>()
+    input.forEach { if (isCubeSetValid(it)) { validIDs.add(parseID(it)) } }
+    return validIDs
+}
+
+fun parseID(text: String): Int {
+    return text.split(":").first().filter { it.isDigit() }.toInt()
+}
+
+fun isCubeSetValid(input: String): Boolean {
+    val text = input.split(":").last().trim().split(";")
+    text.forEach {
+        val cube = mutableMapOf <String, Int> ("red" to 0, "green" to 0, "blue" to 0)
+        it.split(",").forEach { s ->//  3 blue
+            val color = s.filter { it.isLetter() }
+            val amount = s.filter { it.isDigit() }.toInt()
+            cube[color] = amount
+        }
+        if (!isCubeValid(cube)) return false
+    }
+    return true
+}
+
+fun isCubeValid(cube: Map<String, Int>): Boolean {
+    return cube["red"]!! <= 12 && cube["green"]!! <= 13 && cube["blue"]!! <= 14
+}
 
 fun main() {
+    val testInput1 = readInput("Day02_1_test")
+    val input = readInput("Day02")
+
     fun part1(input: List<String>): Int {
-        return input.size
+        return findValidIDs(input).sum()
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        return 0
     }
 
     // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day02_01_test")
-    check(part1(testInput) == 1)
+    val testInput = readInput("Day02_1_test")
+    check(part1(testInput) == 8)
 
-    val input = readInput("Day02")
-    part1(input).println()
-    part2(input).println()
+    part1(input).let(::println)
+
+
 }
