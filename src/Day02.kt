@@ -43,6 +43,14 @@ fun findMaximumCubePower(input: String): Int {
     return cube["red"]!! * cube["green"]!! * cube["blue"]!!
 }
 
+fun findMinSet(cubes: List<String>): Int {
+    var totalPower = 0
+    cubes.forEach {
+        totalPower += findMaximumCubePower(it)
+    }
+    return totalPower
+}
+
 fun main() {
     fun part1(input: List<String>): Int {
         return findValidIDs(input).sum()
@@ -56,10 +64,7 @@ fun main() {
 
     check(part1(testInput) == 8)
 //    part1(input).let(::println)
-    testInput.forEach {
-        print("Current game = $it ")
-        println("Power: ${findMaximumCubePower(it)}")
-    }
+    println(findMinSet(input))
 
 
 }
