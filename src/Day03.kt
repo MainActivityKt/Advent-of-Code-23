@@ -66,6 +66,7 @@ fun isSymbolOnBottom(bottomRow: String, index: Int, includeLowerRight: Boolean =
     }
     return bottomRow[index].isSymbol()   // check the lower element
 }
+
 fun Char.isSymbol(): Boolean {
     return !this.isDigit() && this != '.'
 }
@@ -76,16 +77,16 @@ fun main() {
         return getValidDigits(input).sum()
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    fun part2(input: List<String>): Any {
+        return 0
+
     }
 
     val testInput = readInput("Day03_test")
     val input = readInput("Day03")
     check(part1(testInput) == 4361)
 
-    // val input = readInput("Day03")
     part1(input).println()
-    // part2(input).println()
+//    part2(input).println()
 
 }
