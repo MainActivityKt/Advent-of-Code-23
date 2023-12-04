@@ -43,13 +43,14 @@ fun main() {
         return ScratchCards(input).calculatePoints().sum()
     }
     fun part2(input: List<String>): Any {
-        return -1
+        return ScratchCardsWithCopies(input).calculatePoints()
     }
     val testInput = readInput("Day04_test")
     val input = readInput("Day04")
     check(part1(testInput) == 13)
-    check(part2(testInput) == -1)
-
-    part1(input).println()
+//    check(part2(testInput) == -1)
+//
+//    part1(input).println()
+    part2(input).println()
 
 }
