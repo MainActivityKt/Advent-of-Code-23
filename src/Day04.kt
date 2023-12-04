@@ -11,9 +11,8 @@ fun main() {
 
     val testInput = readInput("Day04_test")
     val input = readInput("Day04")
-    check(part1(testInput) == 4361)
+    check(part1(testInput) == -1)
+    check(part2(testInput) == -1)
 
-    part1(input).println()
-//    part2(input).println()
 
 }
