@@ -33,9 +33,7 @@ class ScratchCards(private val input: List<String>) {
     }
 
     private fun updatePoints(currentPoints: Int, isFirst: Boolean = false): Int {  //debug
-        val result = if (isFirst) 1 else currentPoints * 2
-        return result
-
+        return if (isFirst) 1 else currentPoints * 2
     }
 }
 
