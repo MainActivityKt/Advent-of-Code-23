@@ -1,17 +1,17 @@
-class Almanac(val input: List<String>) {
-    val seeds = mutableListOf<Long>()
-    val seedToSoil = mutableMapOf<Long, Long>()
-    val soilToFertilizer = mutableMapOf<Long, Long>()
-    val fertilizerToWater = mutableMapOf<Long, Long>()
-    val waterToLight = mutableMapOf<Long, Long>()
-    val lightToTemp = mutableMapOf<Long, Long>()
-    val tempToHumidity = mutableMapOf<Long, Long>()
-    val humToLocation = mutableMapOf<Long, Long>()
+class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = false) {
+    private val seeds = mutableListOf<Long>()
+    private val seedToSoil = mutableMapOf<Long, Long>()
+    private val soilToFertilizer = mutableMapOf<Long, Long>()
+    private val fertilizerToWater = mutableMapOf<Long, Long>()
+    private val waterToLight = mutableMapOf<Long, Long>()
+    private val lightToTemp = mutableMapOf<Long, Long>()
+    private val tempToHumidity = mutableMapOf<Long, Long>()
+    private val humToLocation = mutableMapOf<Long, Long>()
 
-    var destination = 0L
-    var source = 0L
-    var length = 0L
-    var range = 0L..1L
+    private var destination = 0L
+    private var source = 0L
+    private var length = 0L
+    private var range = 0L..1L
 
     init {
         getSeeds()
@@ -22,6 +22,10 @@ class Almanac(val input: List<String>) {
         updateLightToTemp()
         updateTempToHumidity()
         updateHumToLocation()
+    }
+
+
+    fun getMinLocation(): Long {
         seeds.forEach {
             val seed = it
             val soil = seedToSoil[seed]
@@ -34,11 +38,6 @@ class Almanac(val input: List<String>) {
 //            println("seed # $it: soil: $soil fertilizer: ${fertilizer} water: $water light: $light temp: $temp hum: $hum loc: $loc")  debug
 
         }
-
-    }
-
-
-    fun getMinLocation(): Long {
         return humToLocation.values.min()
     }
     private fun getSeeds() {
@@ -116,7 +115,6 @@ class Almanac(val input: List<String>) {
             index += 1
         }
     }
-
 
     private fun updateLightToTemp() {
         val firstIndex = input.indexOfFirst { it.contains("light-to-temp") }
