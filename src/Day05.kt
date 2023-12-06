@@ -1,4 +1,4 @@
-class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = false) {
+class Almanac(private val input: List<String>) {
     private val seeds = mutableListOf<Long>()
     private val seedToSoil = mutableMapOf<Long, Long>()
     private val soilToFertilizer = mutableMapOf<Long, Long>()
@@ -35,8 +35,6 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
             val temp = lightToTemp.get(light)
             val hum = tempToHumidity.get(temp)
             val loc = humToLocation.get(hum)
-//            println("seed # $it: soil: $soil fertilizer: ${fertilizer} water: $water light: $light temp: $temp hum: $hum loc: $loc")  debug
-
         }
         return humToLocation.values.min()
     }
@@ -50,9 +48,8 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
         val firstIndex = input.indexOf("seed-to-soil map:")
         var index = firstIndex + 1
         while (input[index].isNotEmpty()) {
-            val currentLine = input[index]   //debugging
+            val currentLine = input[index]
             updateValues(currentLine)
-
             seeds.forEach { seed ->
                 val value = seed - source + destination
                 if (!seedToSoil.containsKey(seed) || seedToSoil[seed] == seed) {
@@ -61,16 +58,14 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
             }
             index += 1
         }
-
     }
 
     private fun updateSoilToFertilizer() {
         val firstIndex = input.indexOfFirst { it.contains("soil-to-fertilizer") }
         var index = firstIndex + 1
         while (input[index].isNotEmpty()) {
-            val currentLine = input[index]   //debugging
+            val currentLine = input[index]
             updateValues(currentLine)
-
             seedToSoil.values.forEach { soil ->
                 val value = soil - source + destination
                 if (!soilToFertilizer.containsKey(soil) || soilToFertilizer[soil] == soil) {
@@ -86,9 +81,8 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
         val firstIndex = input.indexOfFirst { it.contains("fertilizer-to-water") }
         var index = firstIndex + 1
         while (input[index].isNotEmpty()) {
-            val currentLine = input[index]   //debugging
+            val currentLine = input[index]
             updateValues(currentLine)
-
             soilToFertilizer.values.forEach { fertilizer ->
                 val value = fertilizer - source + destination
                 if (!fertilizerToWater.containsKey(fertilizer) || fertilizerToWater[fertilizer] == fertilizer) {
@@ -103,9 +97,8 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
         val firstIndex = input.indexOfFirst { it.contains("water-to-light") }
         var index = firstIndex + 1
         while (input[index].isNotEmpty()) {
-            val currentLine = input[index]   //debugging
+            val currentLine = input[index]
             updateValues(currentLine)
-
             fertilizerToWater.values.forEach { water ->
                 val value = water - source + destination
                 if (!waterToLight.containsKey(water) || waterToLight[water] == water) {
@@ -120,9 +113,8 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
         val firstIndex = input.indexOfFirst { it.contains("light-to-temp") }
         var index = firstIndex + 1
         while (input[index].isNotEmpty()) {
-            val currentLine = input[index]   //debugging
+            val currentLine = input[index]
             updateValues(currentLine)
-
             waterToLight.values.forEach { light ->
                 val value = light - source + destination
                 if (!lightToTemp.containsKey(light) || lightToTemp[light] == light) {
@@ -137,9 +129,8 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
         val firstIndex = input.indexOfFirst { it.contains("temperature-to-humidity") }
         var index = firstIndex + 1
         while (input[index].isNotEmpty()) {
-            val currentLine = input[index]   //debugging
+            val currentLine = input[index]
             updateValues(currentLine)
-
             lightToTemp.values.forEach { temp ->
                 val value = temp - source + destination
                 if (!tempToHumidity.containsKey(temp) || tempToHumidity[temp] == temp) {
@@ -154,9 +145,8 @@ class Almanac(private val input: List<String>, val plantMoreSeeds: Boolean = fal
         val firstIndex = input.indexOfFirst { it.contains("humidity-to-location") }
         var index = firstIndex + 1
         while (input[index].isNotEmpty() && index < input.lastIndex) {
-            val currentLine = input[index]   //debugging
+            val currentLine = input[index]
             updateValues(currentLine)
-
             tempToHumidity.values.forEach { hum ->
                 val value = hum - source + destination
                 if (!humToLocation.containsKey(hum) || humToLocation[hum] == hum) {
@@ -185,14 +175,14 @@ fun main() {
         return Almanac(input).getMinLocation().toInt()
     }
 
-    fun part2(input: List<String>): Any {
-        return -1
+    fun part2(input: List<String>): Long {
+        return AlmanacWithMorePlants(input).getMinLocation()
     }
 
     val testInput = readInput("Day05_test")
     val input = readInput("Day05")
     check(part1(testInput) == 35)
-    check(part2(testInput) == -1)
+    check(part2(testInput) == 46L)
 
     part1(input).println()
 //    part2(input).println()
