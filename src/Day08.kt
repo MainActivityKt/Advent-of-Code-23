@@ -17,15 +17,39 @@ fun parseValues(input: List<String>): Map<String, List<String>> {
 fun parseDirections(input: List<String>): String {
     var str = ""
     input.first().forEach {
-        if (it == 'L') str += '0' else str += '1'
+        str += if (it == 'L') '0' else '1'
     }
     return str
 }
 
+fun calculateSteps(input: List<String>): Int {
+    val map = parseValues(input)
+    val directions = parseDirections(input)
+    val firstKey = "AAA"
+
+    var currentNode = map[firstKey]!!
+    var key: String
+    var found = false
+
+    var steps = 0
+    while (!found) {
+        for (i in directions) {
+            key = currentNode[i.digitToInt()]
+            steps += 1
+            if (key == "ZZZ") {
+                found = true
+                break
+            }
+            currentNode = map[key]!!
+        }
+    }
+    return steps
+}
+
+
 fun main() {
     fun part1(input: List<String>): Int {
-
-        return -1
+        return calculateSteps(input)
     }
 
     fun part2(input: List<String>): Int {
@@ -34,11 +58,10 @@ fun main() {
 
     val input = readInput("Day08")
     val testInput = readInput("Day08_test")
-    check(part1(testInput) == -1)
+    check(part1(testInput) == 6)
     check(part2(testInput) == -1)
 
-    parseDirections(input).println()
-    parseValues(input).size.println()
+    part1(input).println()
 //    part1(input).println()
 //    part2(input).println()
 }
