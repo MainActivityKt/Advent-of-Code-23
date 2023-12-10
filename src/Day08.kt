@@ -79,7 +79,6 @@ fun main() {
     fun part1(input: List<String>): Int {
         return calculateSteps(input).toInt()
     }
-
     fun part2(input: List<String>): Long {
         return calculateSteps(input, true)
     }
