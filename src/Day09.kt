@@ -58,7 +58,7 @@ fun main() {
 
     check(part1(testInput) == 114L)
     check(part2(testInput) == 2L)
-    
+
     part1(input).println()
     part2(input).println()
 }
