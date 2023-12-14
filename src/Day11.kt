@@ -32,19 +32,19 @@ class Image(private val data: List<String>) {
         }
     }
 
-    fun getSumOfShortestPaths(): Int {
-        val minDistances = mutableListOf<Int>()
+    fun getSumOfShortestPaths(expansionAmount: Long = 1): Number {
+        val minDistances = mutableListOf<Long>()
         for (i in galaxies.indices) {
             val firstGalaxy = galaxies[i]
             for (secondGalaxy in galaxies.subList(i + 1, galaxies.size)) {
-                var minDistance = 0
+                var currentShortestPath = 0L
                 val rows = listOf(firstGalaxy.first, secondGalaxy.first).sorted()
                 val columns = listOf(firstGalaxy.second, secondGalaxy.second).sorted()
-                minDistance += expandedRows.count { it in rows.first()..rows.last() }
-                minDistance += expandedColumns.count { it in columns.first()..columns.last() }
-                minDistance += abs(secondGalaxy.first - firstGalaxy.first)
-                minDistance += abs(secondGalaxy.second - firstGalaxy.second)
-                minDistances.add(minDistance)
+                currentShortestPath += expandedRows.count { it in rows.first()..rows.last() } * expansionAmount
+                currentShortestPath += expandedColumns.count { it in columns.first()..columns.last() } * expansionAmount
+                currentShortestPath += abs(secondGalaxy.first - firstGalaxy.first)
+                currentShortestPath += abs(secondGalaxy.second - firstGalaxy.second)
+                minDistances.add(currentShortestPath)
             }
         }
         return minDistances.sum()
@@ -54,18 +54,19 @@ class Image(private val data: List<String>) {
 
 fun main() {
     fun part1(input: List<String>): Int {
-        return Image(input).getSumOfShortestPaths()
+        return Image(input).getSumOfShortestPaths().toInt()
     }
 
-    fun part2(input: List<String>): Int {
-        return -1
+    fun part2(input: List<String>, expansionAmount: Long): Long {
+        return Image(input).getSumOfShortestPaths(expansionAmount - 1).toLong()
     }
 
     val input = readInput("Day11")
     val testInput = readInput("Day11_test")
     check(part1(testInput) == 374)
-    check(part2(testInput) == -1)
+    check(part2(testInput, 10) == 1030L)
+    check(part2(testInput, 100) == 8410L)
 
     part1(input).println()
-    part2(input).println()
+    part2(input, 1000000).println()
 }
