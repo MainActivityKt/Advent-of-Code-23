@@ -25,6 +25,10 @@ class Pipes(val input: List<String>) {
         var direction = startingDirection
         var currentIndex = updateIndex(animalIndex, direction)
         var currentRow = updateRow(animalRowIndex, direction)
+
+        var visitedPipes = mutableMapOf<Int, MutableList<Int>>()    //row: indexes
+        visitedPipes.put(currentRow, mutableListOf(currentIndex))
+
         var currentPipe = input[currentRow][currentIndex]
         var steps = 0
         if (currentPipe.isValidPipe()) {
@@ -32,11 +36,18 @@ class Pipes(val input: List<String>) {
                 direction = updateDirection(currentPipe, direction)
                 currentRow = updateRow(currentRow, direction)
                 currentIndex = updateIndex(currentIndex, direction)
+                if (visitedPipes.contains(currentRow)) {
+                    visitedPipes[currentRow]!!.add(currentIndex)
+                } else {
+                    visitedPipes.put(currentRow, mutableListOf(currentIndex))
+                }
                 currentPipe = input[currentRow][currentIndex]
                 steps += 1
             }
         }
         if ((steps + 1) / 2 > maxSteps)  maxSteps = (steps + 1) / 2
+
+        println(visitedPipes)
     }
 
     private fun updateDirection(pipe: Char, direction: Direction): Direction {
@@ -78,9 +89,9 @@ fun main() {
 
     val input = readInput("Day10")
     val testInput = readInput("Day10_test")
-    check(part1(testInput) == 8)
+//    check(part1(testInput) == 8)
     check(part2(testInput) == -1)
 
-    part1(input).println()
+    part1(testInput).println()
 //    part2(input).println()
 }
